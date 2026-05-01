@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
+import { getNotes } from '@/lib/notes'
+import NoteCard from '../components/NoteCard'
 
 export default function page() {
-
-  // funcion fetch notas => me trae un array de notas [{id: 1, title: "Nota 1", content: "Contenido de la nota 1"}, {id: 2, title: "Nota 2", content: "Contenido de la nota 2"}]
+  const notes = getNotes()
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -18,29 +19,9 @@ export default function page() {
         </div>
 
         {/* Seccion que muestre mis notas */}
-        <section className='w-full h-64 my-8 p-6 rounded-lg flex flex-col bg-zinc-800 text-white justify-between'>
-          <div>
-            <h1 className='font-semibold text-lg'>Componentes</h1>
-            <p>Notas sobre como funcionan los componentes en NEXT</p>
-          </div>
-          <Link href={"/notes/1"} className='self- text-sm text-blue-500 hover:underline'>Ver Nota</Link>
-        </section>
-
-        <section className='w-full h-64 my-8 p-6 rounded-lg flex flex-col bg-zinc-800 text-white justify-between'>
-          <div>
-            <h1 className='font-semibold text-lg'>Rutas</h1>
-            <p>Notas sobre como funcionan los componentes en NEXT</p>
-          </div>
-          <Link href={"/notes/2"} className='self- text-sm text-blue-500 hover:underline'>Ver Nota</Link>
-        </section>
-
-        <section className='w-full h-64 my-8 p-6 rounded-lg flex flex-col bg-zinc-800 text-white justify-between'>
-          <div>
-            <h1 className='font-semibold text-lg'>Layouts</h1>
-            <p>Notas sobre como funcionan los componentes en NEXT</p>
-          </div>
-          <Link href={"/notes/3"} className='self- text-sm text-blue-500 hover:underline'>Ver Nota</Link>
-        </section>
+        {notes.map((note, key) =>  (
+          <NoteCard key={key} note={note}/>
+        ))}
 
       </main>
     </div>

@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { getNoteById } from '@/lib/notes'
 import NotesDetail from '@/app/components/NoteDetail'
 

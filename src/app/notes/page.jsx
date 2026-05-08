@@ -1,10 +1,11 @@
+"use client"
 import Link from 'next/link'
 import React from 'react'
-import { getNotes } from '@/lib/notes'
 import NoteCard from '../components/NoteCard'
+import { useNotes } from './NotesContext'
 
 export default function page() {
-  const notes = getNotes()
+  const { notes } = useNotes()
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">

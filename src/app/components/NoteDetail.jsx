@@ -40,8 +40,8 @@ const [editingField, setEditingField] = useState(null)
     setEditingField(null)
   }
 
-  const EditPencil = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil opacity-0 group-hover:opacity-100" viewBox="0 0 16 16">
+  const EditPencil = ({classNameExtra}) => (
+    <svg width="16" height="16" fill="currentColor" className={`bi bi-pencil opacity-0 group-hover:opacity-100 ${classNameExtra}`} viewBox="0 0 16 16">
       <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
     </svg>
   )
@@ -74,44 +74,89 @@ const [editingField, setEditingField] = useState(null)
           </div>
         </div>
 
-        <p className='text-justify'>
-          {nota.content}
-        </p>
+        <div
+          className='w-full h-auto hover:bg-zinc-700 transition-colors p-3 cursor-pointer group'
+          onDoubleClick={() => setEditingField("content")}
+          title="Doble click para editar"
+        >
+          {editingField === 'content' ? (
+              <input 
+                type="text" 
+                value={formData.content}
+                onChange={(e) => setFormData({...formData, content: e.target.value})}
+                autoFocus
+                className='max-w-lg text-1xl text-wrap break-all focus:outline-none focus:ring-2 focus:ring-green-300 w-full p-1 rounded m-1 font-semibold leading-10 tracking-tight text-black dark:text-zinc-50'
+              />
+          ) : (
+            <div className='flex items-center gap-2'>
+              <p className='text-justify'> {nota.content} </p>
+                <EditPencil classNameExtra="w-18 h-10 ml-5" />
+            </div>
+          )}
+        </div>
 
         {/* Ejemplo de como funcionan los arrays */}
         <section className='w-full min-h-64 my-8 p-4 rounded-lg flex flex-col bg-zinc-800 text-white justify-between'>
-          <p className='text-lg font-semibold'>Ejemplo Arrays</p>
+            <p className='text-lg font-semibold mb-3'>Ejemplo Arrays</p>
           <div className='relative group'>
             <button 
               onClick={handleCopy}
               className='absolute top-2 cursor-pointer right-2'>
                 { copied ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="currentColor" className="bi bi-clipboard-check text-green-400" viewBox="0 0 16 16">
+                  <svg height="20" fill="currentColor" className="bi bi-clipboard-check text-green-400" viewBox="0 0 16 16">
                     <path fillRule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
                     <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
                     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
                   </svg>
                 ):(
-                  <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="currentColor" className="bi bi-clipboard" viewBox="0 0 16 16">
+                  <svg height="20" fill="currentColor" className="bi bi-clipboard" viewBox="0 0 16 16">
                     <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
                     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
                   </svg>
                 )}
             </button>
-            <pre className='text-sm text-white bg-black rounded p-2 overflow-x-auto'>
-              <code>
-                { nota.ejemplo }
-              </code>
-            </pre>
+            <div
+              className='w-full h-auto hover:bg-zinc-700 transition-colors cursor-pointer group'
+              onDoubleClick={() => setEditingField("ejemplo")}
+              title="Doble click para editar"
+            >
+              {editingField === 'ejemplo' ? (
+                <textarea 
+                  name="ejemplo" 
+                  id="ejemplo"
+                  value={formData.ejemplo}
+                  onChange={(e) => setFormData({...formData, ejemplo: e.target.value})}
+                  autoFocus
+                  className='max-w-lg text-1xl text-wrap break-all focus:outline-none focus:ring-2 focus:ring-green-300 w-full h-80 p-1 rounded m-1 font-semibold leading-10 tracking-tight text-black dark:text-zinc-50'
+                >
+
+                </textarea>
+              ) : (
+              
+                <pre className='text-sm text-white bg-black rounded p-2 overflow-x-auto'>
+                <code>
+                  { nota.ejemplo }
+                </code>
+              </pre>
+              )}
+            </div>
           </div>
         </section>
         {editingField && 
-          <button
-          onClick={handleSave}
-          className='bg-green-600 hover:bg-green-500 px-3 py-2 rounded cursor-pointer text-white'
-          >
-            Save
-          </button>
+          <div className='flex gap-4'>
+            <button
+            onClick={handleSave}
+            className='bg-green-600 hover:bg-green-500 px-3 py-2 rounded cursor-pointer text-white'
+            >
+              Save
+            </button>
+            <button
+            onClick={() => setEditingField(null)}
+            className='bg-red-600 hover:bg-red-500 px-3 py-2 rounded cursor-pointer text-white'
+            >
+              Cancel
+            </button>
+          </div>
         }
       </main>
     </div>

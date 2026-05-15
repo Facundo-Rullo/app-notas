@@ -11,7 +11,7 @@ export default function page() {
 
   const nota = getNoteById(id)
   if (!nota) {
-    return <p>Cargando...</p>
+    return null
   }
   const router = useRouter()
 

@@ -48,9 +48,9 @@ function CreateNotePage() {
 
           <div className='flex flex-col'>
             <label className='text-zinc-400'>Category</label>
-            <select className='p-2 border border-zinc-600 rounded-md my-4' value={formData.category_id}  onChange={(e) => setFormData({...formData, category_id: parseInt(e.target.value)})}> 
+            <select className='p-2 border border-zinc-600 rounded-md my-4' value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: parseInt(e.target.value) })}>
               {categories.map((category) => (
-                <option key={category.id} value={category.id} >{category.name}</option>
+                <option key={category.id} value={category.id}>{category.title}</option>
               ))}
             </select>
           </div>

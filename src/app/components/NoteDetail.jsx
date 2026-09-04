@@ -1,14 +1,14 @@
 "use client"
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNotes } from '../notes/NotesContext'
+import { useNotes } from '../context/NotesContext'
 
 
 function NoteDetail({nota}) {
   const { updateNotes } = useNotes()
   const [copied, setCopied] = useState(false)
 
-const [editingField, setEditingField] = useState(null)
+  const [editingField, setEditingField] = useState(null)
 
   const [formData, setFormData] = useState({
     title: "",
@@ -35,9 +35,13 @@ const [editingField, setEditingField] = useState(null)
     }
   }
 
-  const handleSave = () => {
-    updateNotes(nota.id, formData)
-    setEditingField(null)
+  const handleSave = async () => {
+    try {
+      await updateNotes(nota.id, formData)
+      setEditingField(null)
+    } catch {
+      alert("No se pudo actualizar la nota")
+    }
   }
 
   const EditPencil = ({classNameExtra}) => (

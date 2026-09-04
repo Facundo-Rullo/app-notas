@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { useNotes } from '../notes/NotesContext'
+import { useNotes } from '../context/NotesContext'
 
 
 function CategorySection({category}) {
@@ -62,7 +62,7 @@ function Aside({categorias}) {
     )
     return {...category, notes: filteredNotes}
   }).filter(category => 
-    category.notes.lenght > 0 ||
+    category.notes.length > 0 ||
     category.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
 

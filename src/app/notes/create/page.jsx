@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { useState } from 'react'
-import { useNotes } from '../NotesContext'
+import { useNotes } from '../../context/NotesContext'
 import { useRouter } from 'next/navigation'
 import axios from "axios"
 
@@ -20,16 +20,22 @@ function CreateNotePage() {
     title: "",
     content: "",
     ejemplo: "",
-    category_id: 1
+    categoryId: ""
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.title || !formData.content) return alert("Completa los campos requeridos!")
+    if (!formData.title || !formData.content || !formData.categoryId) {
+      return alert("Completá título, contenido y categoría")
+    }
 
-    addNote(formData)
-    router.push("/notes")
+    try {
+      await addNote(formData)
+      router.push("/notes")
+    } catch {
+      alert("No se pudo crear la nota")
+    }
   }
 
   const handleAutoFill = async (e) => {
@@ -40,11 +46,12 @@ function CreateNotePage() {
     setLoading(true)
     try {
       const response = await axios.post("/api/generate-note/", {tema})
-      setFormData({
+      setFormData((prev) => ({
+        ...prev,
         title: response.data.result.title,
         content: response.data.result.content,
         ejemplo: response.data.result.content,
-      })
+      }))
     } catch (err) {
       console.error(err)
     } finally {
@@ -100,9 +107,10 @@ function CreateNotePage() {
             <label className='text-zinc-400'>Category</label>
             <select 
               className={`p-2 border border-zinc-600 bg-zinc-900/80 rounded-md my-4 cursor-pointer ${loading && "animate-pulse"}`}
-              value={formData.category_id} 
-              onChange={(e) => setFormData({ ...formData, category_id: String(e.target.value) })}
+              value={formData.categoryId} 
+              onChange={(e) => setFormData({ ...formData, categoryId: String(e.target.value) })}
               >
+              <option value="" disabled >Select Category</option>
               {categorias.map((category) => (
                 <option key={category.id} value={category.id}>{category.title}</option>
               ))}

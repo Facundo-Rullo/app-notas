@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { useState } from 'react'
-import { useNotes } from '../notes/NotesContext'
+import { useNotes } from '../context/NotesContext'
 import axios from 'axios'
 import ReactMarckDown from "react-markdown"
 

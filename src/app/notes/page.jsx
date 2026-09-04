@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import React from 'react'
 import NoteCard from '../components/NoteCard'
-import { useNotes } from './NotesContext'
+import { useNotes } from '../context/NotesContext'
 
 export default function page() {
   const { notes } = useNotes()
